@@ -495,7 +495,11 @@ if [[ "$OPT_MANUALS" = "true" ]]; then
 		fi
 		
 		printc_msg "    %{YELLOW}      %{MAGENTA}%s%{CLEAR}\n" "$(basename "$docout")"
-		(mdroff < "$doc" > "${MAN}/${name}.1")
+        if [[ "$OPT_INSTALL" != true ]]; then
+            (mdroff < "$doc" > "${MAN}/${name}.1")
+        else
+            (mdroff < "$doc" | tee  "${MAN}/${name}.1" "${OPT_PREFIX}/man/1/${name}.1")
+        fi
 	done
 	printc_msg "\n"
 fi
